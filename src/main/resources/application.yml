@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: ai-marketplace-backend
+
+  profiles:
+    active: dev
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_CLIENT_SECRET
