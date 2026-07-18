@@ -4,7 +4,7 @@ server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/aimarketplace_db?options=-c%20TimeZone=Asia/Kolkata
+    url: jdbc:postgresql://localhost:5432/aimarketplace_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
