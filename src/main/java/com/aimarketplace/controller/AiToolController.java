@@ -5,6 +5,7 @@ import com.aimarketplace.dto.request.AiToolRequest;
 import com.aimarketplace.dto.response.AiToolResponse;
 import com.aimarketplace.service.AiToolService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class AiToolController extends BaseController {
 
 
     @GetMapping
+    @Cacheable(value = "aitools",key = "#id")
     public ResponseEntity<List<AiToolResponse>> getAllTools(){
 
         return ok(

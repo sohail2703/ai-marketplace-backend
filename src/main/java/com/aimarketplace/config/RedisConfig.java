@@ -1,6 +1,10 @@
 package com.aimarketplace.config;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +16,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.lang.runtime.ObjectMethods;
 import java.time.Duration;
 
 
@@ -21,7 +26,15 @@ public class RedisConfig {
 
     @Bean
     public CacheManager cm(RedisConnectionFactory rf){
-        GenericJackson2JsonRedisSerializer serializer=new GenericJackson2JsonRedisSerializer();
+        ObjectMapper om=new ObjectMapper();
+        om.registerModule(new JavaTimeModule())
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .activateDefaultTyping(
+                        LaissezFaireSubTypeValidator.instance,
+                        ObjectMapper.DefaultTyping.NON_FINAL
+
+                );
+        GenericJackson2JsonRedisSerializer serializer=new GenericJackson2JsonRedisSerializer(om);
         RedisCacheConfiguration rcc=RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(10))
                 .serializeKeysWith(
