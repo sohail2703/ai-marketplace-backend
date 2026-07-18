@@ -1,7 +1,9 @@
 spring:
   application:
     name: ai-marketplace-backend
-
+  threads:
+    virtual:
+      enabled: true
   profiles:
     active: dev
 
