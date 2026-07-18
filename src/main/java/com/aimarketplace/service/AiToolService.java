@@ -13,6 +13,7 @@ import com.aimarketplace.repository.AiToolRepository;
 import com.aimarketplace.repository.CategoryRepository;
 import com.aimarketplace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +79,7 @@ public class AiToolService {
 
 
 
+    @Cacheable(value = "aitool", key = "#id")
     public List<AiToolResponse> getAllTools() {
 
 

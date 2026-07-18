@@ -21,8 +21,12 @@ spring:
       hibernate:
 
         format_sql: true
+        jdbc:
+          time_zone: Asia/Kolkata
 
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
 
   data:
 

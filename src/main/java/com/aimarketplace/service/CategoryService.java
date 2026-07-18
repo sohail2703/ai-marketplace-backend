@@ -7,6 +7,7 @@ import com.aimarketplace.exception.ResourceNotFoundException;
 import com.aimarketplace.mapper.CategoryMapper;
 import com.aimarketplace.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class CategoryService {
     }
 
 
-
+    @Cacheable(value = "category", key = "#id")
     public List<CategoryResponse> getAll() {
 
 
