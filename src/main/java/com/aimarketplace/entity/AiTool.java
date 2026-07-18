@@ -5,6 +5,7 @@ import com.aimarketplace.enums.ToolStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 
-public class AiTool extends BaseEntity {
+public class AiTool extends BaseEntity implements Serializable {
 
     @Column(nullable = false, length = 150)
     private String name;
