@@ -4,6 +4,7 @@ package com.aimarketplace.controller;
 import com.aimarketplace.dto.request.ChatRequest;
 import com.aimarketplace.dto.response.ChatResponse;
 import com.aimarketplace.service.ChatService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ChatController extends BaseController {
 
     @PostMapping
     public ResponseEntity<ChatResponse> chat(
-            @RequestBody ChatRequest request
+            @Valid @RequestBody ChatRequest request
     ){
 
         return ok(

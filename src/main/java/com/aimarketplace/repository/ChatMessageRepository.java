@@ -12,7 +12,5 @@ import java.util.List;
 public interface ChatMessageRepository
         extends JpaRepository<ChatMessage, Long> {
 
-
-    List<ChatMessage> findByUser(User user);
-
+    List<ChatMessage> findByUserOrderByCreatedAtAsc(User user);
 }

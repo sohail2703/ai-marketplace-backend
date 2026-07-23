@@ -13,45 +13,41 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class ChatService {
 
-
     private final ChatClient chatClient;
-
     private final ChatMessageRepository chatMessageRepository;
-
     private final UserRepository userRepository;
-
     private final ChatMapper chatMapper;
-
     private final PromptTemplateUtil promptTemplateUtil;
 
 
-
-    public ChatResponse chat(ChatRequest request){
-
+    public ChatResponse chat(ChatRequest request) {
 
         User user = getCurrentUser();
-
+        List<ChatMessage> previousMessages =
+                chatMessageRepository
+                        .findByUserOrderByCreatedAtAsc(user);
+        String conversationHistory =
+                buildConversationHistory(previousMessages);
 
         String prompt =
                 promptTemplateUtil
                         .buildAiToolAdvisorPrompt(
+                                conversationHistory,
                                 request.getMessage()
                         );
-
-
         String response =
-                chatClient.prompt()
+                chatClient
+                        .prompt()
                         .user(prompt)
                         .call()
                         .content();
-
-
-
         ChatMessage message =
                 ChatMessage.builder()
                         .userMessage(request.getMessage())
@@ -59,16 +55,36 @@ public class ChatService {
                         .user(user)
                         .build();
 
-
         return chatMapper.toResponse(
                 chatMessageRepository.save(message)
         );
-
     }
 
 
+    private String buildConversationHistory(
+            List<ChatMessage> previousMessages
+    ) {
 
-    private User getCurrentUser(){
+        StringBuilder history = new StringBuilder();
+
+
+        for (ChatMessage message : previousMessages) {
+
+            history.append("User: ")
+                    .append(message.getUserMessage())
+                    .append("\n");
+
+            history.append("Assistant: ")
+                    .append(message.getAiResponse())
+                    .append("\n\n");
+        }
+
+
+        return history.toString();
+    }
+
+
+    private User getCurrentUser() {
 
         String email =
                 SecurityContextHolder
@@ -77,9 +93,8 @@ public class ChatService {
                         .getName();
 
 
-        return userRepository.findByEmail(email)
+        return userRepository
+                .findByEmail(email)
                 .orElseThrow();
-
     }
-
 }
