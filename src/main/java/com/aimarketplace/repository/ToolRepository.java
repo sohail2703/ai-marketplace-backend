@@ -1,20 +1,31 @@
 package com.aimarketplace.repository;
 
-import com.aimarketplace.entity.Category;
 import com.aimarketplace.entity.Tool;
-import com.aimarketplace.entity.User;
 import com.aimarketplace.enums.ToolStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
-public interface ToolRepository extends JpaRepository<Tool, Long> {
+public interface ToolRepository
+        extends JpaRepository<Tool, Long> {
 
-    Page<Tool> findByStatus(ToolStatus status, Pageable pageable);
-
-    Page<Tool> findByCategory(Category category, Pageable pageable);
-
-    Page<Tool> findByCreator(User creator, Pageable pageable);
-
-    Page<Tool> findByToolNameContainingIgnoreCase(String keyword, Pageable pageable);
+    @Query("""
+            SELECT t
+            FROM Tool t
+            WHERE
+                (:keyword IS NULL
+                 OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                 OR LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            AND (:categoryId IS NULL
+                 OR t.category.id = :categoryId)
+            AND (:status IS NULL
+                 OR t.status = :status)
+            """)
+    Page<Tool> searchTools(
+            @Param("keyword") String keyword,
+            @Param("categoryId") Long categoryId,
+            @Param("status") ToolStatus status,
+            Pageable pageable
+    );
 }
