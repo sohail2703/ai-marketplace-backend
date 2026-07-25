@@ -36,9 +36,10 @@ spring:
       client:
         registration:
           google:
-            client-id: YOUR_GOOGLE_CLIENT_ID
-            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
             scope:
+              - openid
               - email
               - profile
 
@@ -46,12 +47,14 @@ server:
   port: 8080
 
 jwt:
-  secret: un5t45uxmgc5894hg498c5tygjhx4c5y85c87hyvb9c5mncjt3uc5
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
 
 logging:
   level:
