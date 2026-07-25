@@ -6,7 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface ChatSessionRepository extends JpaRepository<ChatSession, Long> {
 
-    Page<ChatSession> findByUser(User user, Pageable pageable);
+    Optional<ChatSession> findByIdAndUserId(
+            Long sessionId,
+            Long userId
+    );
 }
