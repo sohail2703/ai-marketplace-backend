@@ -46,7 +46,7 @@ server:
   port: 8080
 
 jwt:
-  secret: YOUR_256_BIT_SECRET_KEY_HERE_CHANGE_IT
+  secret: un5t45uxmgc5894hg498c5tygjhx4c5y85c87hyvb9c5mncjt3uc5
   expiration: 86400000
 
 springdoc:
