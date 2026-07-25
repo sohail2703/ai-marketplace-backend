@@ -15,7 +15,7 @@ public interface ToolRepository
             FROM Tool t
             WHERE
                 (:keyword IS NULL
-                 OR LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                 OR LOWER(t.toolName) LIKE LOWER(CONCAT('%', :keyword, '%'))
                  OR LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%')))
             AND (:categoryId IS NULL
                  OR t.category.id = :categoryId)

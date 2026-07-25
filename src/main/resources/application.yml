@@ -36,8 +36,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${CLIENT_ID}
-            client-secret: ${CLIENT_SECRET}
+            client-id: u45ft9cm4r8jt40
+            client-secret: iue4ty7g4985yvu849g
             scope:
               - openid
               - email
@@ -47,7 +47,7 @@ server:
   port: 8080
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: nyucrt549tcbyo467hh67t3j0985wc4uy5icth635gd5tgn84cwv5ny7c48yt938m0n4ct7938
   expiration: 86400000
 
 springdoc:
