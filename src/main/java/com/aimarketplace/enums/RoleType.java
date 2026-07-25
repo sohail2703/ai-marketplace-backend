@@ -1,9 +1,7 @@
 package com.aimarketplace.enums;
 
-public enum Role {
-
+public enum RoleType {
     ROLE_USER,
-    ROLE_PROVIDER,
+    ROLE_CREATOR,
     ROLE_ADMIN
-
 }

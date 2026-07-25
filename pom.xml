@@ -93,10 +93,6 @@
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -206,6 +202,13 @@
 					<parameters>true</parameters>
 
 					<annotationProcessorPaths>
+
+						<dependency>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>0.2.0</version>
+							<scope>provided</scope>
+						</dependency>
 
 						<path>
 							<groupId>org.projectlombok</groupId>

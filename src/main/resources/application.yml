@@ -1,16 +1,58 @@
 spring:
+
   application:
     name: ai-marketplace-backend
-  threads:
-    virtual:
-      enabled: true
-  profiles:
-    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aimarketplace_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+
+      chat:
+        model: llama3.2
 
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: YOUR_CLIENT_ID
-            client-secret: YOUR_CLIENT_SECRET
+            client-id: YOUR_GOOGLE_CLIENT_ID
+            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            scope:
+              - email
+              - profile
+
+server:
+  port: 8080
+
+jwt:
+  secret: YOUR_256_BIT_SECRET_KEY_HERE_CHANGE_IT
+  expiration: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    org.springframework.security: DEBUG
