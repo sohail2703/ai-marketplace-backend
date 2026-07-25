@@ -35,17 +35,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
-                                "/api/v1/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
+                                "/api-docs/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        .requestMatchers("/api/v1/admin/**")
-                        .hasRole("ADMIN")
+                        // Authentication
+                        .requestMatchers(
+                                "/api/v1/auth/**",
+                                "/oauth2/**",
+                                "/login/**"
+                        ).permitAll()
 
-                        .anyRequest()
-                        .authenticated()
+                        // Everything else
+                        .anyRequest().authenticated()
                 )
 
                 .oauth2Login(oauth -> oauth
