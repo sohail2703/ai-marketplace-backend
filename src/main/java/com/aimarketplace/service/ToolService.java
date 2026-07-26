@@ -53,6 +53,7 @@ public class ToolService {
                 .toolName(request.getToolName())
                 .description(request.getDescription())
                 .websiteUrl(request.getWebsiteUrl())
+                .pricing(request.getPricing())
                 .category(category)
                 .creator(creator)
                 .status(ToolStatus.APPROVED)
