@@ -3,11 +3,13 @@ package com.aimarketplace.service;
 import com.aimarketplace.dto.request.LoginRequest;
 import com.aimarketplace.dto.request.RegisterRequest;
 import com.aimarketplace.dto.response.JwtResponse;
+import com.aimarketplace.dto.response.UserResponse;
 import com.aimarketplace.entity.Role;
 import com.aimarketplace.entity.User;
 import com.aimarketplace.enums.ProviderType;
 import com.aimarketplace.enums.RoleType;
 import com.aimarketplace.exception.BadRequestException;
+import com.aimarketplace.mapper.UserMapper;
 import com.aimarketplace.repository.RoleRepository;
 import com.aimarketplace.repository.UserRepository;
 import com.aimarketplace.security.CustomUserDetails;
@@ -29,15 +31,17 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
 
-    public JwtResponse register(RegisterRequest request) {
+    public UserResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
 
         Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
-                .orElseThrow(() -> new BadRequestException("Default role not found"));
+                .orElseThrow(() ->
+                        new BadRequestException("Default role not found"));
 
         User user = User.builder()
                 .fullName(request.getFullName())
@@ -48,16 +52,10 @@ public class AuthService {
                 .roles(Set.of(userRole))
                 .build();
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        String token = jwtService.generateToken(new CustomUserDetails(user));
-
-        return JwtResponse.builder()
-                .token(token)
-                .tokenType("Bearer")
-                .build();
+        return userMapper.toResponse(savedUser);
     }
-
     public JwtResponse login(LoginRequest request) {
 
         authenticationManager.authenticate(

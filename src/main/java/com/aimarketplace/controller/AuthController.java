@@ -4,6 +4,7 @@ import com.aimarketplace.dto.request.LoginRequest;
 import com.aimarketplace.dto.request.RegisterRequest;
 import com.aimarketplace.dto.response.ApiResponse;
 import com.aimarketplace.dto.response.JwtResponse;
+import com.aimarketplace.dto.response.UserResponse;
 import com.aimarketplace.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,10 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ApiResponse<JwtResponse> register(
+    public ApiResponse<UserResponse> register(
             @Valid @RequestBody RegisterRequest request) {
 
-        return ApiResponse.<JwtResponse>builder()
+        return ApiResponse.<UserResponse>builder()
                 .success(true)
                 .message("User registered successfully")
                 .data(authService.register(request))
